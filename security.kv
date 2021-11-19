@@ -1,0 +1,334 @@
+
+<Settings>
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 10
+        orientation: 'vertical'
+        Label:
+            text: 'МЕНЮ'
+            size_hint: (1, 0.25)
+            font_size: 15
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+            Button:
+                text:'Простые настройки'
+                font_size: 15
+                on_press: root.manager.current = 'SimpleSettings'
+            Button:
+                text: 'Продвинутые настройки'
+                font_size: 15
+                on_press: root.manager.current = 'AdvancedSettings'
+            Button:
+                text: 'Защитить данные'
+                font_size: 15
+<SimpleSettings>
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 10
+        orientation: 'vertical'
+        Label:
+            text: 'Выберите первый фактор защиты'
+            font_size: 25
+            size_hint: (1, 0.25)
+        GridLayout:
+            cols: 2
+            spacing: 5
+            Button:
+                text: 'ПИН-КОД'
+                font_size: 25
+                on_press: root.manager.current = 'PinCodeS'
+            CheckBox:
+                group: '1-st step'
+                size_hint: (0.1, 1)
+            Button:
+                text: 'ПАРОЛЬ'
+                font_size: 25
+                on_press: root.manager.current = 'PasswordS'
+            CheckBox:
+                group: '1-st step'
+                size_hint: (0.1, 1)
+        Button:
+            text: 'Далее'
+            font_size: 25
+            size_hint: (1, 0.15)
+            on_press: root.manager.current = 'SimpleSettings1'
+        Button:
+            text: 'Назад'
+            font_size: 25
+            size_hint: (1, 0.15)
+            on_press:
+                app.clear_data()
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'Settings'
+<SimpleSettings1>
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 50
+        Label:
+            text: 'Выберите второй фактор защиты'
+            font_size: 15
+            size_hint: (1, 0.25)
+        GridLayout:
+            cols: 2
+            Button:
+                text: 'ОТПЕЧАТОК ПАЛЬЦА'
+            CheckBox:
+                size_hint: (0.1, 1)
+                group: '2-st step'
+            Button:
+                text: 'FACE ID'
+                on_press:
+                    app.set_back_ss1()
+                    root.manager.current = 'CameraS'
+            CheckBox:
+                size_hint: (0.1, 1)
+                group: '2-st step'
+            Button:
+                text: 'NFC ID'
+            CheckBox:
+                size_hint: (0.1, 1)
+                group: '2-st step'
+        Button:
+            text: 'Принять'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press: root.manager.current = 'pinS'
+        Button:
+            text: 'Назад'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'SimpleSettings'
+<AdvancedSettings>
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+        padding: 50
+        spacing: 10
+        GridLayout:
+            spacing: 10
+            cols: 2
+            Button:
+                text: 'ПАРОЛЬ'
+                on_press: root.manager.current = 'PasswordA'
+            CheckBox:
+                size_hint: (0.1, 1)
+            Button:
+                text: 'ПИНКОД'
+                on_press: root.manager.current = 'PinCodeA'
+            CheckBox:
+                size_hint: (0.1, 1)
+            Button:
+                text: 'ОТПЕЧАТОК ПАЛЬЦА'
+            CheckBox:
+                size_hint: (0.1, 1)
+            Button:
+                text: 'FACE ID'
+                on_press:
+                    app.set_back_a()
+                    root.manager.current = 'CameraS'
+            CheckBox:
+                size_hint: (0.1, 1)
+            Button:
+                text: 'NFC ID'
+            CheckBox:
+                size_hint: (0.1, 1)
+        Button:
+            text: 'Принять'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press:
+                root.manager.current = 'pinS'
+        Button:
+            text: 'Назад'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press:
+                app.clear_data()
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'Settings'
+<PinCodeS>
+
+    pincode_text: pin
+
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        padding: 50
+        spacing: 10
+
+        Label:
+            id: pin
+            text: 'PINCODE'
+            font_size: 15
+            size_hint: (1, 0.2)
+        GridLayout:
+            cols:3
+            Button:
+                text: '1'
+                on_press: root.add_number(1)
+            Button:
+                text: '2'
+                on_press: root.add_number(2)
+            Button:
+                text: '3'
+                on_press: root.add_number(3)
+            Button:
+                text: '4'
+                on_press: root.add_number(4)
+            Button:
+                text: '5'
+                on_press: root.add_number(5)
+            Button:
+                text: '6'
+                on_press: root.add_number(6)
+            Button:
+                text: '7'
+                on_press: root.add_number(7)
+            Button:
+                text: '8'
+                on_press: root.add_number(8)
+            Button:
+                text: '9'
+                on_press: root.add_number(9)
+            Button:
+                text: 'DEL'
+                on_press: root.delit()
+            Button:
+                text: '0'
+                on_press: root.add_number(0)
+            Button:
+                text: 'OK'
+                on_press:
+                    app.set_pincode(root.pincode_text.text)
+                    root.clear()
+        Button:
+            text: 'Назад'
+            font_size:15
+            size_hint:(1, 0.25)
+            on_press:
+                root.clear()
+                root.manager.transition.direction = 'right'
+                root.manager.current = root.go_back()
+<PasswordS>
+    ti1:ti1
+    ti2:ti2
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        padding: 50
+        spacing: 10
+        TextInput:
+            id: ti1
+            hint_text: 'Придумайте пароль'
+            multiline: False
+        TextInput:
+            id: ti2
+            hint_text: 'Подтвердите пароль'
+            multiline: False
+        Button:
+            text: 'Принять'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press:
+                app.set_pass(root.is_valid(ti1, ti2), ti1.text)
+                root.clear_text()
+        Button:
+            text: 'Назад'
+            font_size: 15
+            size_hint: (1, 0.15)
+            on_press:
+                root.clear_text()
+                root.manager.transition.direction = 'right'
+                root.manager.current = root.go_back()
+<PinS>
+    pincode_text: pin
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        padding: 50
+        spacing: 10
+        Label:
+            id: pin
+            text: 'Введите PINCODE'
+            font_size: 15
+            size_hint: (1, 0.2)
+        GridLayout:
+            cols:3
+            Button:
+                text: '1'
+                on_press: root.add_number(1)
+            Button:
+                text: '2'
+                on_press: root.add_number(2)
+            Button:
+                text: '3'
+                on_press: root.add_number(3)
+            Button:
+                text: '4'
+                on_press: root.add_number(4)
+            Button:
+                text: '5'
+                on_press: root.add_number(5)
+            Button:
+                text: '6'
+                on_press: root.add_number(6)
+            Button:
+                text: '7'
+                on_press: root.add_number(7)
+            Button:
+                text: '8'
+                on_press: root.add_number(8)
+            Button:
+                text: '9'
+                on_press: root.add_number(9)
+            Button:
+                text: 'DEL'
+                on_press: root.delit()
+            Button:
+                text: '0'
+                on_press: root.add_number(0)
+        Button:
+            text: 'Далее'
+            on_press:
+                root.manager.current = (app.check_pincode(root.pincode_text.text))
+                root.clear()
+<passS>
+    ti:ti
+    BoxLayout:
+        padding: 50
+        spacing: 10
+        TextInput:
+            id: ti
+            hint_text: 'Введите пароль'
+        Button:
+            text: 'Далее'
+            on_press: root.manager.current = (app.check_pass(root.ti.text))
+<CameraS>
+    text: it
+    BoxLayout:
+        padding:50
+        spacing:10
+        orientation: 'vertical'
+        Camera:
+            play: True
+        Button:
+            id: it
+            text: 'Запомнить лицо'
+            font_size: 15
+            size_hint: 1, 0.15
+            on_press:
+                root.change_text_temp()
+                app.set_face()
+                root.manager.current = app.back
+        Button:
+            text: 'Назад'
+            size_hint: 1, 0.15
+            font_size: 15
+            on_press:
+                root.manager.current = app.back
